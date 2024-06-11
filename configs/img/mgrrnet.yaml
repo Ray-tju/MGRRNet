@@ -12,7 +12,7 @@ model:
   z_dim: 0
 training:
   out_dir:  out/img/onet
-  batch_size: 64
+  batch_size: 256
   model_selection_metric: iou
   model_selection_mode: maximize
   visualize_every: 20000
