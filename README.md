@@ -7,13 +7,13 @@
 ## Citing this work
 If you find our code or paper useful, please consider citing
 ```
-@inproceedings{li2021dmifnet,
-  title={DmifNet: 3D Shape Reconstruction based on Dynamic Multi-Branch Information Fusion},
-  author={Li, Lei and Wu, Suping},
-  booktitle={2020 25th International Conference on Pattern Recognition (ICPR)},
-  pages={7219--7225},
-  year={2021},
-  organization={IEEE}
+@article{li2024multi,
+  title={Multi-granularity relationship reasoning network for high-fidelity 3D shape reconstruction},
+  author={Li, Lei and Zhou, Zhiyuan and Wu, Suping and Li, Pan and Zhang, Boyang},
+  journal={Pattern Recognition},
+  pages={110647},
+  year={2024},
+  publisher={Elsevier}
 }
 ```
 
@@ -47,12 +47,12 @@ Next, put your model path in DmifNet/dmifnet/encoder/batchnet.py /def resnet18(p
 ## Generation
 To generate meshes using a trained model, use
 ```
-python generate.py ./config/img/dmifnet.yaml
+python generate.py ./config/img/mgrrnet.yaml
 ```
 
 ## Training
 ```
-python train.py ./config/img/dmifnet.yaml
+python train.py ./config/img/mgrrnet.yaml
 ```
 
 ## DataSet
@@ -62,25 +62,18 @@ You can check the baseline work Onet to download the dataset[ONet and DmifNet: D
 
 First, to generate meshes using a trained model, use
 ```
-python generate.py ./config/img/dmifnet.yaml
+python generate.py ./config/img/mgrrnet.yaml
 ```
 
 Then, for evaluation of the models, you can run it using
 
 ```
-python eval_meshes.py ./config/img/dmifnet.yaml
+python eval_meshes.py ./config/img/mgrrnet.yaml
 ```
 also can use quick evaluation(don't need generation).
 ```
-python eval.py ./config/img/dmifnet.yaml
+python eval.py ./config/img/mgrrnet.yaml
 ```
-
-## Pretrained model
-you can download our pretrained model via Baidu Netdisk or Google Drive
-
-* download the [DmifNet](https://pan.baidu.com/s/1nihobjv6dW5RVt2Zw2Ycjw) via BaiDu and Extracted key is [3hfs]([5iwg]) 
-* download the [DmifNet](https://drive.google.com/file/d/1rOJaAnJlg0RmTiiBg2RiSXO8QYsv8fs1/view?usp=sharing) via Google
-
 
 ## Quantitative Results
 Method | Intersection over Union | Normal consistency | Chamfer distance 
