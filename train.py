@@ -6,12 +6,11 @@ import os
 import argparse
 import time
 import matplotlib;
-import time
 import datetime
 
 matplotlib.use('Agg')
-from dmifnet import config, data
-from dmifnet.checkpoints import CheckpointIO
+from im2mesh import config, data
+from im2mesh.checkpoints import CheckpointIO
 
 # Arguments
 parser = argparse.ArgumentParser(
@@ -76,7 +75,7 @@ model = config.get_model(cfg, device=device, dataset=train_dataset)
 
 # Intialize training
 npoints = 1000
-optimizer = optim.Adam(model.parameters(), lr=1e-4)
+optimizer = optim.Adam(model.parameters(), lr=5e-5)
 # optimizer = optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)
 trainer = config.get_trainer(model, optimizer, cfg, device=device)
 
@@ -116,10 +115,10 @@ visualize_every = cfg['training']['visualize_every']
 nparameters = sum(p.numel() for p in model.parameters())
 print(model)
 print('Total number of parameters: %d' % nparameters)
+
 for name, parameters in model.named_parameters():
     print(name, ':', parameters.size())
 
-ori_it = it
 while True:
     epoch_it += 1
     #     scheduler.step()
@@ -127,19 +126,23 @@ while True:
     for batch in train_loader:
         it += 1
         now = time.time()
-        loss, loss_ori, loss_head1, loss_head2, loss_head3, loss_head4 = trainer.train_step(batch)
-        logger.add_scalar('train/loss', loss, it)
-        logger.add_scalar('train/loss_ori', loss_ori, it)
-        logger.add_scalar('train/loss_head1', loss_head1, it)
-        logger.add_scalar('train/loss_head2', loss_head2, it)
-        logger.add_scalar('train/loss_head3', loss_head3, it)
-        logger.add_scalar('train/loss_head4', loss_head4, it)
+        loss_out_concat, loss_out_xfg1, loss_out_xfg2, loss_out, loss_kl_fxg1, loss_kl_fxg2, loss_kl_out, loss_kl_concat_out = trainer.train_step(
+            batch)
+        logger.add_scalar('train/loss_xfg1', loss_out_xfg1, it)
+        logger.add_scalar('train/loss_xfg2', loss_out_xfg2, it)
+        logger.add_scalar('train/loss_xfg3', loss_out, it)
+        logger.add_scalar('train/loss_concat', loss_out_concat, it)
+        logger.add_scalar('train/loss_kl_xfg1', loss_kl_fxg1, it)
+        logger.add_scalar('train/loss_kl_xfg2', loss_kl_fxg2, it)
+        logger.add_scalar('train/loss_kl_xfg3', loss_kl_out, it)
+        logger.add_scalar('train/losskl__concat', loss_kl_concat_out, it)
 
         # Print output
         if print_every > 0 and (it % print_every) == 0:
             print(
-                '[Epoch %02d] it=%03d, loss=%.4f,loss_ori=%.4f,loss_head1=%.4f,loss_head2=%.4f,loss_dog3=%.4f,loss_attention=%.4f,per_iter_time=%.3f'
-                % (epoch_it, it, loss, loss_ori, loss_head1, loss_head2, loss_head3, loss_head4, time.time() - now))
+                '[Epoch %02d] it=%03d, loss_xfg1=%.4f,loss_xfg2=%.4f,loss_xfg3=%.4f,loss_concat=%.4f, loss_kl_xfg1=%.4f, loss_kl_xfg2=%.4f, loss_kl_xfg3=%.4f, loss_kl_concat=%.4f,per_iter_time=%.3f'
+                % (epoch_it, it, loss_out_xfg1, loss_out_xfg2, loss_out, loss_out_concat, loss_kl_fxg1, loss_kl_fxg2,
+                   loss_kl_out, loss_kl_concat_out, time.time() - now))
 
         # Visualize output
         if visualize_every > 0 and (it % visualize_every) == 0:
@@ -172,9 +175,11 @@ while True:
             # eval_dict = trainer.evaluate(val_loader, args, agent, batch, it, ori_it)
             # metric_val = eval_dict[model_selection_metric]
             try:
-                fobj = open('./vaild_value.txt', mode='a')
+                fobj = open(
+                    './vaild_value.txt',
+                    mode='a')
                 nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
-                fobj.write(str(eval_dict) + nowTime)
+                fobj.write('iter='+str(it)+str(eval_dict) + nowTime)
                 fobj.write('\n')
                 fobj.close()
             except Exception as e:
