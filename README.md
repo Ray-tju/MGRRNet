@@ -25,7 +25,7 @@ Python3.6, Pytorch: 1.0, CUDA: 9.0+, Cudnn: follow Cuda version, GPU: one Nvidia
 ## Installation
 First you have to make sure that you have all dependencies in place.
 
-You can create an anaconda environment called `dmifnet_space` using
+You can create an anaconda environment called `mgrrnet_space` using
 ```
 conda env create -f mgrrnet_env.yaml
 conda activate mgrrnet_space
@@ -82,6 +82,11 @@ Pix2Mesh | 0.480 | 0.772 | 0.216
 AtlasNet | -- | 0.811 | 0.175 
 ONet | 0.571 | 0.834 | 0.215
 DmifNet | 0.607 | 0.846 | 0.185
+MNGDNet | 0.605 | 0.844 | 0.185
+RADANet | 0.596 | 0.843 | 0.192
+HFLNet | 0.613 | 0.848 | 0.182
+Ours | 0.620 | 0.850 | 0.175
+
 
 ## Qualitative Results
 <img src="display/Qualitative.jpg" width="500" height="500">
