@@ -1,4 +1,4 @@
-# DmifNet
+# MRGGNet
 ![Example 1](display/car.gif)
 ![Example 2](display/chair.gif)
 ![Example 3](display/plane.gif)
@@ -19,8 +19,7 @@ If you find our code or paper useful, please consider citing
 
 ## Configuration Environment
 ```
-Python3.6, Pytorch: 1.0, CUDA: 9.0+, Cudnn: follow Cuda version, GPU: one Nvidia RTX 2080Ti
-Epoch: Approximately close to the optimal convergence value between 1500 and 2500 epoch
+Python3.6, Pytorch: 1.0, CUDA: 9.0+, Cudnn: follow Cuda version, GPU: one Nvidia Tesla V100
 ```
 
 ## Installation
@@ -28,8 +27,8 @@ First you have to make sure that you have all dependencies in place.
 
 You can create an anaconda environment called `dmifnet_space` using
 ```
-conda env create -f dmif_env.yaml
-conda activate dmifnet_space
+conda env create -f mgrrnet_env.yaml
+conda activate mgrrnet_space
 ```
 
 Then, compile the extension modules.
