@@ -89,9 +89,9 @@ Ours | 0.620 | 0.850 | 0.175
 
 
 ## Qualitative Results
-<img src="display/Qualitative.jpg" width="500" height="500">
+<img src="display/qs.jpg" width="500" height="500">
 
 # Futher Information
 If you have any problems with the code, please list the problems you encountered in the issue area, and I will reply you soon.
-Thanks for  baseline work [Occupancy Networks - Learning 3D Reconstruction in Function Space](https://avg.is.tuebingen.mpg.de/publications/occupancy-networks).
+Thanks for the baseline work [Occupancy Networks - Learning 3D Reconstruction in Function Space](https://avg.is.tuebingen.mpg.de/publications/occupancy-networks).
 
