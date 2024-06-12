@@ -1,4 +1,4 @@
-name: dmifnet_space
+name: mgrrnet_space
 channels:
   - conda-forge
   - pytorch
